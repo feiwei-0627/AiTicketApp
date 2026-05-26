@@ -10,7 +10,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * @program: SmartTicketService
+ * @program: AiTicketApp
  * @description: 异步线程池
  * @author: feiwei
  * @create: 2026-05-26 09:04

@@ -11,8 +11,8 @@
     <groupId>com.macro.cloud</groupId>
     <artifactId>AiTicketApp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>SmartTicketService</name>
-    <description>SmartTicketService</description>
+    <name>AiTicketApp</name>
+    <description>AiTicketApp</description>
     <url/>
     <licenses>
         <license/>

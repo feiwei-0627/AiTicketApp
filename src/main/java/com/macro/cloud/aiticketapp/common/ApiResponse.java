@@ -4,7 +4,7 @@ package com.macro.cloud.aiticketapp.common;
 import lombok.Data;
 
 /**
- * @program: SmartTicketService
+ * @program: AiTicketApp
  * @description: 封装接口统一返回对象
  * @author: feiwei
  * @create: 2026-05-26 08:28

@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * @program: SmartTicketService
+ * @program: AiTicketApp
  * @description: Ai配置类
  * @author: feiwei
  * @create: 2026-05-25 21:32

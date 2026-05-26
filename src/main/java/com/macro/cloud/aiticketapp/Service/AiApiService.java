@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.Async;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 /**
- * @program: SmartTicketService
+ * @program: AiTicketApp
  * @description: Ai调用服务层
  * @author: feiwei
  * @create: 2026-05-25 21:33

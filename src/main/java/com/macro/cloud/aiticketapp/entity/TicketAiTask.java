@@ -1,13 +1,13 @@
 package com.macro.cloud.aiticketapp.entity;
 
+
+import lombok.Data;
 /**
- * @program: SmartTicketService
+ * @program: AiTicketApp
  * @description: 智能工单
  * @author: feiwei
  * @create: 2026-05-26 09:32
  **/
-
-import lombok.Data;
 
 /**
  * 工单AI异步任务状态（模拟数据库表）

@@ -1,15 +1,15 @@
 package com.macro.cloud.aiticketapp.entity;
 
+import lombok.Data;
+
+import java.util.List;
+
 /**
- * @program: SmartTicketService
+ * @program: AiTicketApp
  * @description: 多轮会话
  * @author: feiwei
  * @create: 2026-05-26 09:29
  **/
-
-import lombok.Data;
-
-import java.util.List;
 
 /**
  * 多轮对话会话实体

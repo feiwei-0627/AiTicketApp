@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 /**
- * @program: SmartTicketService
+ * @program: AiTicketApp
  * @description: 智能工单控制层
  * @author: feiwei
  * @create: 2026-05-25 21:37

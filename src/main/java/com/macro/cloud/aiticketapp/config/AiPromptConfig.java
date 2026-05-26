@@ -1,7 +1,7 @@
 package com.macro.cloud.aiticketapp.config;
 
 /**
- * @program: SmartTicketService
+ * @program: AiTicketApp
  * @description: Ai提示词配置
  * @author: feiwei
  * @create: 2026-05-26 09:27
