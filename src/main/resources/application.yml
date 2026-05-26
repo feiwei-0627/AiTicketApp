@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      database: 0
+
+# 大模型接口配置
+ai:
+  api-key: sk-5c3d0eaea33347aebe38df11da41f76c
+  api-url: https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation
+  prompt:
+    ticket-summary: 请精简总结这段工单内容，控制50字以内：
+    content-check: 检测内容是否包含违规辱骂、敏感信息，仅回复合规/违规：
+    chat-role: 你是企业工单客服助手，回答简洁专业
