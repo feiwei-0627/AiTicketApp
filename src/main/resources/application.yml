@@ -1,3 +1,5 @@
+kind: Application
+
 server:
   port: 8080
 
@@ -11,7 +13,7 @@ spring:
 
 # 大模型接口配置
 ai:
-  api-key: sk-5c3d0eaea33347aebe38df11da41f76c
+  api-key: 输入你的秘钥
   api-url: https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation
   prompt:
     ticket-summary: 请精简总结这段工单内容，控制50字以内：

@@ -23,9 +23,3 @@ public class ChatSession {
     // 会话创建时间
     private Long createTime;
 }
-
-@Data
-class ChatMsg {
-    private String role; // user / assistant
-    private String content;
-}
