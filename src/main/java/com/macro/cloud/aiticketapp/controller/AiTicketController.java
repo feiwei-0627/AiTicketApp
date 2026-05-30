@@ -6,10 +6,8 @@ import com.macro.cloud.aiticketapp.entity.TicketAiTask;
 import com.macro.cloud.aiticketapp.service.AiTicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 /**
  * @program: AiTicketApp
  * @description: 智能工单控制层
@@ -43,13 +41,13 @@ public class AiTicketController {
     }
 
     // 同步摘要
-    @GetMapping("/summary")
+    @PostMapping("/summary")
     public ApiResponse<String> summary(@RequestParam String content) {
         return ApiResponse.success(aiTicketService.summaryContent(content));
     }
 
     // 异步摘要（带任务状态）
-    @GetMapping("/async/summary")
+    @PostMapping("/async/summary")
     public ApiResponse<String> asyncSummary(
             @RequestParam String ticketId,
             @RequestParam String content) {
@@ -59,7 +57,7 @@ public class AiTicketController {
     }
 
     // 内容审核
-    @GetMapping("/check")
+    @PostMapping("/check")
     public ApiResponse<String> check(@RequestParam String text) {
         return ApiResponse.success(aiTicketService.checkIllegal(text));
     }

@@ -2,6 +2,8 @@ package com.macro.cloud.aiticketapp.entity;
 
 
 import lombok.Data;
+
+import java.time.LocalDateTime;
 /**
  * @program: AiTicketApp
  * @description: 智能工单
@@ -15,12 +17,12 @@ import lombok.Data;
  */
 @Data
 public class TicketAiTask {
-    private String taskId;
+    private Long taskId;
     private String ticketId;
     private Integer status;
     private String content;
     private String summary;
     private String errorMsg;
-    private Long createTime;
-    private Long finishTime;
+    private LocalDateTime createTime;
+    private LocalDateTime finishTime;
 }

@@ -2,8 +2,16 @@ kind: Application
 
 server:
   port: 8080
+  tomcat:
+    max-http-post-size: 10MB
+    max-http-response-header-size: 102400
 
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/aiTicket?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
   data:
     redis:
       host: localhost
@@ -19,3 +27,8 @@ ai:
     ticket-summary: 请精简总结这段工单内容，控制50字以内：
     content-check: 检测内容是否包含违规辱骂、敏感信息，仅回复合规/违规：
     chat-role: 你是企业工单客服助手，回答简洁专业
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

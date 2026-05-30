@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.cloud.aiticketapp.mapper.AiKnowledgeMapper">
+    <select id="selectByKeywords" resultType="com.macro.cloud.aiticketapp.entity.AiKnowledge">
+        SELECT id, title, content, keywords FROM ai_knowledge
+        WHERE status = 1 AND keywords LIKE CONCAT('%', #{kw}, '%')
+    </select>
+</mapper>

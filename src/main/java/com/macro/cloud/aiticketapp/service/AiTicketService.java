@@ -1,23 +1,26 @@
 package com.macro.cloud.aiticketapp.service;
 
+
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.macro.cloud.aiticketapp.config.AiConfig;
 import com.macro.cloud.aiticketapp.config.AiPromptConfig;
 import com.macro.cloud.aiticketapp.entity.ChatMsg;
 import com.macro.cloud.aiticketapp.entity.ChatSession;
 import com.macro.cloud.aiticketapp.entity.TicketAiTask;
 import com.macro.cloud.aiticketapp.exception.AiBusinessException;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -39,12 +42,16 @@ public class AiTicketService {
     private final AiConfig aiConfig;
     private final AiPromptConfig promptConfig;
     private final StringRedisTemplate redisTemplate;
+    @Autowired
+    private AiKnowledgeService knowledgeService;
 
     private static final long CACHE_EXPIRE = 10;
     private static final int HTTP_TIMEOUT = 30000;
     private static final int MAX_TRY = 3;
     private static final long SESSION_EXPIRE = 1800; // 会话缓存30分钟
     private final AtomicInteger counter = new AtomicInteger(0);
+    private final int MAX = 50;
+
 
     // ===================== 基础单轮问答（原有逻辑保留） =====================
     public String chatQuestion(String content) {
@@ -60,8 +67,13 @@ public class AiTicketService {
             counter.decrementAndGet();
             return cacheData;
         }
+        String knowledge = knowledgeService.search(content);
+        String userContent = promptConfig.getChatRole()
+                + "\n参考资料：" + knowledge
+                + "\n问题：" + content;
 
-        JSONObject inputObj = buildBaseRequest(content);
+
+        JSONObject inputObj = buildBaseRequest(userContent);
         String body = inputObj.toString();
         String answer = null;
 
@@ -124,9 +136,13 @@ public class AiTicketService {
         }
 
         // 2. 追加当前用户提问
+        String knowledge = knowledgeService.search(userContent);
+        String prompt = promptConfig.getChatRole()
+                + "\n参考资料：" + knowledge
+                + "\n问题：" + userContent;
         ChatMsg userMsg = new ChatMsg();
         userMsg.setRole("user");
-        userMsg.setContent(userContent);
+        userMsg.setContent(prompt);
         session.getMsgList().add(userMsg);
 
         // 3. 组装多轮请求体
@@ -134,6 +150,7 @@ public class AiTicketService {
         inputObj.put("model", "qwen-turbo");
         inputObj.put("input", JSONObject.of("messages", session.getMsgList()));
         inputObj.put("parameters", JSONObject.of("result_format", "message", "temperature", 0.3));
+
 
         String answer = callAiApi(inputObj.toString());
 
@@ -163,7 +180,7 @@ public class AiTicketService {
             // 任务处理成功
             task.setStatus(2);
             task.setSummary(summary);
-            task.setFinishTime(System.currentTimeMillis());
+            task.setFinishTime(LocalDateTime.now());
             System.out.println("工单" + task.getTicketId() + "摘要生成成功：" + summary);
 
             // 此处模拟：更新数据库 task 记录
@@ -171,7 +188,7 @@ public class AiTicketService {
         } catch (Exception e) {
             task.setStatus(3);
             task.setErrorMsg(e.getMessage());
-            task.setFinishTime(System.currentTimeMillis());
+            task.setFinishTime(LocalDateTime.now());
             System.err.println("工单AI任务失败，任务ID：" + task.getTaskId() + "，原因：" + e.getMessage());
             // 可扩展：失败任务存入失败队列，定时任务重试
         }
@@ -221,6 +238,7 @@ public class AiTicketService {
         inputObj.put("input", JSONObject.of("messages", new Object[]{
                 JSONObject.of("role", "user", "content", content)
         }));
+
         inputObj.put("parameters", JSONObject.of("result_format", "message", "temperature", 0.3, "max_tokens", 1024));
         return inputObj;
     }
@@ -240,11 +258,12 @@ public class AiTicketService {
     // 初始化异步任务对象
     public TicketAiTask buildAiTask(String ticketId, String content) {
         TicketAiTask task = new TicketAiTask();
-        task.setTaskId(IdUtil.simpleUUID());
+        //查询最大id
+        task.setTaskId(55L);
         task.setTicketId(ticketId);
         task.setStatus(0);
         task.setContent(content);
-        task.setCreateTime(System.currentTimeMillis());
+        task.setCreateTime(LocalDateTime.now());
         return task;
     }
 }
